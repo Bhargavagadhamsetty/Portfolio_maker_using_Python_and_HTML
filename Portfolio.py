@@ -20,17 +20,34 @@ for i in range(experience_num):
 project_num = 0
 if project_input := input('Number of projects: '):
     project_num = int(project_input)
-project_rows = project_num // 3 + project_num % 3
+
+project_rows = project_num // 3 + (1 if project_num % 3 != 0 else 0)  # Calculate rows needed for projects
 project_content = ''
+
+project_counter = 1  # Initialize a counter to keep track of project number
 for i in range(project_rows):
     project_content += '<div class="row text-center">\n'
-    for j in range(project_num):
-        project_title = input(f'Project {j*3+i+1} title: ')
-        project_description = input(f'Project {j*3+i+1} description: ')
-        project_url =  input(f'Project {j*3+i+1} URL: ')
-        project_content += f'<div class="col-md-4 my-2">\n<div class="card">\n<div class="card-body">\n<h3 class="card-title">{project_title}</h3>\n<p class="card-text lead">{project_description}</p>\n<a href="{project_url}" target="_blank" class="btn btn-primary">Check it out</a>\n</div>\n</div>\n</div>\n'
-    project_content += '</div>\n'
-portriat_url = input('Portriat URL: ')
+    for j in range(3):  # Loop for up to 3 columns in each row
+        if project_counter <= project_num:  # Ensure only the number of projects needed is collected
+            project_title = input(f'Project {project_counter} title: ')
+            project_description = input(f'Project {project_counter} description: ')
+            project_url = input(f'Project {project_counter} URL: ')
+            project_content += f'''
+            <div class="col-md-4 my-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">{project_title}</h3>
+                        <p class="card-text lead">{project_description}</p>
+                        <a href="{project_url}" target="_blank" class="btn btn-primary">Check it out</a>
+                    </div>
+                </div>
+            </div>
+            '''
+            project_counter += 1  # Increment counter after each project
+    project_content += '</div>\n'  # Close row after 3 projects or fewer if at end
+
+portrait_url = input('Portrait URL: ')
+
 
 print('Enter a blank line if you do not use one of the following platforms')
 contact_content = ''
